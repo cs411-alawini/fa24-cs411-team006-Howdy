@@ -6,8 +6,8 @@
 | ----------- | ---------------------- |
 | TeamID      |        Team-006        |
 | TeamName    |         Howdy          |
-| Captain     |       Abdu Alawini     |
-| Captain     |  alawini@illinois.edu  |
+| Captain     |       Feihao Fang     |
+| Captain     |  feihaof2@illinois.edu  |
 | Member1     |        Hezi Jiang      |
 | Member1     |   hezij2@illinois.edu  |
 | Member2     |        Selena Wang     |
