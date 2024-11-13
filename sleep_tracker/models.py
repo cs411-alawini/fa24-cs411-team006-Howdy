@@ -9,7 +9,7 @@ from django.db import models
 
 
 class Healthdata(models.Model):
-    userid = models.OneToOneField('User', models.DO_NOTHING, db_column='UserID', primary_key=True)  # Field name made lowercase.
+    userid = models.OneToOneField('User', models.CASCADE, db_column='UserID', primary_key=True)  # Field name made lowercase.
     bmi = models.FloatField(db_column='BMI', blank=True, null=True)  # Field name made lowercase.
     bloodpressure = models.FloatField(db_column='BloodPressure', blank=True, null=True)  # Field name made lowercase.
     heartrate = models.FloatField(db_column='HeartRate', blank=True, null=True)  # Field name made lowercase.
@@ -21,7 +21,7 @@ class Healthdata(models.Model):
 
 
 class Recommendation(models.Model):
-    userid = models.OneToOneField('User', models.DO_NOTHING, db_column='UserID', primary_key=True)  # Field name made lowercase.
+    userid = models.OneToOneField('User', models.CASCADE, db_column='UserID', primary_key=True)  # Field name made lowercase.
     recommendstr = models.CharField(db_column='RecommendStr', max_length=255, blank=True, null=True)  # Field name made lowercase.
     sleepdisorder = models.CharField(db_column='SleepDisorder', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
@@ -31,7 +31,7 @@ class Recommendation(models.Model):
 
 
 class Sleepdata(models.Model):
-    userid = models.OneToOneField('User', models.DO_NOTHING, db_column='UserID', primary_key=True)  # Field name made lowercase.
+    userid = models.OneToOneField('User', models.CASCADE, db_column='UserID', primary_key=True)  # Field name made lowercase.
     sleepduration = models.FloatField(db_column='SleepDuration', blank=True, null=True)  # Field name made lowercase.
     bedtimeconsistency = models.FloatField(db_column='BedtimeConsistency', blank=True, null=True)  # Field name made lowercase.
 
@@ -41,7 +41,7 @@ class Sleepdata(models.Model):
 
 
 class Sleepqualitydata(models.Model):
-    userid = models.OneToOneField('User', models.DO_NOTHING, db_column='UserID', primary_key=True)  # Field name made lowercase.
+    userid = models.OneToOneField('User', models.CASCADE, db_column='UserID', primary_key=True)  # Field name made lowercase.
     sleepqualityscore = models.FloatField(db_column='SleepQualityScore', blank=True, null=True)  # Field name made lowercase.
     lightexposurehours = models.FloatField(db_column='LightExposureHours', blank=True, null=True)  # Field name made lowercase.
     movementduringsleep = models.FloatField(db_column='MovementDuringSleep', blank=True, null=True)  # Field name made lowercase.
@@ -66,7 +66,7 @@ class User(models.Model):
 
 
 class Userbehavior(models.Model):
-    userid = models.OneToOneField(User, models.DO_NOTHING, db_column='UserID', primary_key=True)  # Field name made lowercase.
+    userid = models.OneToOneField(User, models.CASCADE, db_column='UserID', primary_key=True)  # Field name made lowercase.
     physicalactivitylevel = models.IntegerField(db_column='PhysicalActivityLevel', blank=True, null=True)  # Field name made lowercase.
     dailysteps = models.IntegerField(db_column='DailySteps', blank=True, null=True)  # Field name made lowercase.
     caffeineintakemg = models.FloatField(db_column='CaffeineIntakeMg', blank=True, null=True)  # Field name made lowercase.
