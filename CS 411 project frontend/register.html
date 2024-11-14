@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Sweet Dream</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .register-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .register-button {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid white;
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .register-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .login-link {
+            color: white;
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Register</h1>
+        <form id="registerForm" onsubmit="return handleRegister(event)">
+            <input type="text" class="input-field" name="username" placeholder="Username" id="username">
+            <input type="password" class="input-field" name="password" placeholder="Password" id="password">
+            <input type="password" class="input-field" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword">
+            <input type="text" class="input-field" name="gender" placeholder="Gender" id="gender">
+            <input type="number" class="input-field" name="age" placeholder="Age" id="age">
+            <input type="text" class="input-field" name="contactInfo" placeholder="Contact Info" id="contactInfo">
+            <input type="text" class="input-field" name="occupation" placeholder="Occupation" id="occupation">
+            <label><input type="checkbox" id="shareConsent"> Share my contact info to help others</label>
+            <button type="submit" class="register-button">Register</button>
+        </form>
+        <a href="login.html" class="login-link">Already have an account? Login here</a>
+    </div>
+
+    <script>
+        async function handleRegister(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const gender = document.getElementById('gender').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const contactInfo = document.getElementById('contactInfo').value.trim();
+            const occupation = document.getElementById('occupation').value.trim();
+            const shareConsent = document.getElementById('shareConsent').checked;
+
+            if (!username || !password || !confirmPassword || !gender || !age || !contactInfo || !occupation) {
+                alert("Please fill in all fields.");
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            const data = { username, password, gender, age, contactInfo, occupation, shareConsent };
+            try {
+                const response = await fetch('http://127.0.0.1:8000/sweetdream/register/user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    window.location.href = "login.html";
+                } else {
+                    alert("Registration failed. Please try again later.");
+                }
+            } catch (error) {
+                alert("An error occurred. Please check your internet connection and try again.");
+            }
+        }
+    </script>
+</body>
+</html>

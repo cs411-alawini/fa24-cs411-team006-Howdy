@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account - Sweet Dream</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .delete-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .delete-button {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: -2px;
+            border: 1px solid white;
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .delete-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-link {
+            color: white;
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-container">
+        <h1>Delete Your Account</h1>
+        <p>Are you sure you want to delete your account? This action is irreversible.</p>
+        <form id="deleteForm" onsubmit="return handleDelete(event)">
+            <input type="text" class="input-field" name="username" placeholder="Username" id="username">
+            <input type="password" class="input-field" name="password" placeholder="Password" id="password">
+            <button type="submit" class="delete-button">Delete Account</button>
+        </form>
+        <a href="login.html" class="back-link">Back to Login</a>
+    </div>
+
+    <script>
+        async function handleDelete(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            const data = { username, password };
+            try {
+                const response = await fetch('http://127.0.0.1:8000/sweetdream/delete/user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Your account has been deleted.");
+                    window.location.href = 'login.html'; // Redirect to login page after deletion
+                } else {
+                    alert("Deletion failed. Please check your credentials.");
+                }
+            } catch (error) {
+                alert("An error occurred. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>

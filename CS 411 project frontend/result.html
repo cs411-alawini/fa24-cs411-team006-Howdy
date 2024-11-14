@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result - Sweet Dream</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+        }
+
+        .result-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 0 20px;
+        }
+
+        .contacts-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+            font-size: 1em;
+        }
+
+        .contacts-table th, .contacts-table td {
+            padding: 10px;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .contacts-table th {
+            background-color: white;
+        }
+
+        .contacts-table td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Diagnosis Result</h1>
+        <div class="section" id="conditionSection"></div>
+        <div class="section" id="suggestionSection"></div>
+    </div>
+
+    <script>
+        async function fetchDiagnosisResults() {
+            try {
+                // Get the username from the URL query parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const username = urlParams.get('username');  // Extract 'username' from the URL query string
+
+                if (!username) {
+                    alert("Username is missing in the URL.");
+                    return;
+                }
+
+                // Send only username to the backend to fetch the diagnosis report
+                const response = await fetch(`http://127.0.0.1:8000/sweetdream/request/report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: username })  // Send username to the backend
+                });
+
+                const diagnosisResult = await response.json();
+
+                if (diagnosisResult) {
+                    // Display condition and suggestions
+                    document.getElementById('conditionSection').innerHTML = `<h2>Condition:</h2><p>${diagnosisResult.condition}</p>`;
+                    document.getElementById('suggestionSection').innerHTML = `<h2>Suggestions:</h2><ul>${diagnosisResult.suggestions.map(s => `<li>${s}</li>`).join('')}</ul>`;
+                } else {
+                    alert("No diagnosis result found.");
+                }
+            } catch (error) {
+                console.error("Failed to fetch or process data:", error);
+                alert("Failed to fetch results.");
+            }
+        }
+
+        // Fetch the results when the page loads
+        fetchDiagnosisResults();
+    </script>
+</body>
+</html>
