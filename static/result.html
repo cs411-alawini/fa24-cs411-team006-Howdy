@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result - Sweet Dream</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+        }
+
+        .result-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 0 20px;
+        }
+
+        .contacts-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+            font-size: 1em;
+        }
+
+        .contacts-table th, .contacts-table td {
+            padding: 10px;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .contacts-table th {
+            background-color: white;
+        }
+
+        .contacts-table td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Diagnosis Result</h1>
+        <div class="section" id="conditionSection"></div>
+        <div class="section" id="suggestionSection"></div>
+    </div>
+
+    <script>
+        async function fetchDiagnosisResults() {
+            try {
+                const response = await fetch('/diagnosis-result-endpoint', { method: 'GET' });
+                const result = await response.json();
+
+                document.getElementById('conditionSection').innerHTML = `<h2>Condition:</h2><p>${result.condition}</p>`;
+                document.getElementById('suggestionSection').innerHTML = `<h2>Suggestions:</h2><ul>${result.suggestions.map(s => `<li>${s}</li>`).join('')}</ul>`;
+            } catch (error) {
+                alert("Failed to fetch results.");
+            }
+        }
+        fetchDiagnosisResults();
+    </script>
+</body>
+</html>
