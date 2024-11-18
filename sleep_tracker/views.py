@@ -469,7 +469,7 @@ def send_health_data_to_chatgpt(health_data, avg_bmi, avg_sleep_duration,avg_phy
     try:
         # Make sure to use the correct chat completion API
         from openai import OpenAI
-        client = OpenAI()
+        client = OpenAI(api_key="",)
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",  # Specify the model you want to use
             messages=[
@@ -499,3 +499,18 @@ def send_health_data_to_chatgpt(health_data, avg_bmi, avg_sleep_duration,avg_phy
         print(f"Error calling OpenAI: {e}")
         return {"condition": "Error processing data.", "suggestions": []}
 
+@api_view(['GET'])
+def check_username(request):
+    username = request.GET.get('username')
+
+    if not username:
+        return Response({"error": "Username is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT COUNT(*) FROM User WHERE UserID = %s;", [username])
+        count = cursor.fetchone()[0]
+
+    if count > 0:
+        return Response({"exists": True}, status=status.HTTP_200_OK)
+    else:
+        return Response({"exists": False}, status=status.HTTP_200_OK)

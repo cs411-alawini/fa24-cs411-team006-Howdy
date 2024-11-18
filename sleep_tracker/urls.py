@@ -8,5 +8,6 @@ urlpatterns = [
     path('diag/nose', views.diagnose, name='diagnose'),
     path('delete/user', views.delete_user, name='delete_user'),
     path('request/report', views.health_report, name='health_report'),
+    path('checkusername', views.check_username, name='check_username'),
 
 ]
